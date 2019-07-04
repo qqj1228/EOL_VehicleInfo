@@ -1,0 +1,17 @@
+<Config>
+  <SerialPort>
+    <PortName>COM3</PortName>
+    <BaudRate>9600</BaudRate>
+    <Parity>0</Parity>
+    <DataBits>8</DataBits>
+    <StopBits>1</StopBits>
+  </SerialPort>
+  <DB>
+    <IP>127.0.0.1</IP>
+    <Port>1433</Port>
+    <UserID>sa</UserID>
+    <Pwd>sh49</Pwd>
+    <DBName>JAC</DBName>
+  </DB>
+  <VehicleTypeList>X4131,X4130,X4152,X4153,X4154,X4156,X4160,X4142,X4141,X4143,X1104,X1114</VehicleTypeList>
+</Config>
