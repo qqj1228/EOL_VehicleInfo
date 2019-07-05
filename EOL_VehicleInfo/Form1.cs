@@ -18,6 +18,7 @@ namespace EOL_VehicleInfo {
         Model DB;
         SerialPortClass Serial;
         MainFileVersion FileVer;
+        BindingSource bs;
 
         public Form1() {
             InitializeComponent();
@@ -33,11 +34,19 @@ namespace EOL_VehicleInfo {
                     (StopBits)Cfg.Serial.StopBits
                 );
                 Serial.DataReceived += new SerialPortClass.SerialPortDataReceiveEventArgs(SerialDataReceived);
-                Serial.OpenPort();
+                try {
+                    Serial.OpenPort();
+                } catch (Exception e) {
+                    Log.TraceFatal(e.Message);
+                    MessageBox.Show(e.Message + "\n请检查串口配置！", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             FileVer = new MainFileVersion();
             this.labelVer.Text = "Ver: " + FileVer.AssemblyVersion.ToString();
-            this.comboBox1.DataSource = Cfg.VehicleTypeList;
+            bs = new BindingSource {
+                DataSource = Cfg.VehicleTypeList
+            };
+            this.comboBox1.DataSource = bs;
         }
 
         void SerialDataReceived(object sender, SerialDataReceivedEventArgs e, byte[] bits) {
@@ -86,6 +95,8 @@ namespace EOL_VehicleInfo {
             if (!Cfg.VehicleTypeList.Contains(strVehicleType)) {
                 Cfg.VehicleTypeList.Add(strVehicleType);
                 Cfg.SaveConfig();
+                bs.ResetBindings(false);
+                this.comboBox1.SelectedItem = strVehicleType;
             }
             args[0] = strVIN;
             args[1] = strVehicleType;
@@ -104,7 +115,7 @@ namespace EOL_VehicleInfo {
                         this.labelStatus.Text = "连接数据库失败";
                     });
                     return;
-                }                    
+                }
                 Dictionary<string, string> dicInfo = new Dictionary<string, string> {
                     { "VIN", strVIN },
                     { "VehicleType", strVehicleType}
