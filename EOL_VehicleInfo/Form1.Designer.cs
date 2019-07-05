@@ -42,7 +42,7 @@
             this.textBoxVIN.Size = new System.Drawing.Size(289, 21);
             this.textBoxVIN.TabIndex = 1;
             this.textBoxVIN.Text = "请输入VIN号";
-            this.textBoxVIN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
+            this.textBoxVIN.TextChanged += new System.EventHandler(this.textBoxVIN_TextChanged);
             // 
             // label1
             // 

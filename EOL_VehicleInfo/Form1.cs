@@ -55,9 +55,9 @@ namespace EOL_VehicleInfo {
                 // 跨UI线程调用UI控件要使用Invoke，更新UI的字符串长度不能大于21
                 this.BeginInvoke((EventHandler)delegate {
                     txt.Text = Encoding.Default.GetString(bits).Trim();
-                    if (bits.Contains<byte>(0x0d) || bits.Contains<byte>(0x0a)) {
-                        this.labelStatus.Text = "等待输入车型代码";
-                    }
+                    //if (bits.Contains<byte>(0x0d) || bits.Contains<byte>(0x0a)) {
+                    //    this.labelStatus.Text = "等待输入车型代码";
+                    //}
                 });
             }
         }
@@ -68,12 +68,10 @@ namespace EOL_VehicleInfo {
             }
         }
 
-        private void textBox_KeyPress(object sender, KeyPressEventArgs e) {
-            if (e.KeyChar == (char)Keys.Enter) {
-                TextBox tb = sender as TextBox;
-                if (tb.Name == "textBoxVIN") {
-                    this.labelStatus.Text = "等待输入车型代码";
-                }
+        private void textBoxVIN_TextChanged(object sender, EventArgs e) {
+            TextBox tb = sender as TextBox;
+            if (tb.Name == "textBoxVIN") {
+                this.labelStatus.Text = "等待输入车型代码";
             }
         }
 
